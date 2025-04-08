@@ -4,10 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carousel Bài Báo Khoa Học</title>
+    <title>Thông tin Khoa học - Sâm & Dược liệu</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
+        /* Phần mở đầu Bảng bài bào */
         html {
             scroll-behavior: smooth;
         }
@@ -95,10 +97,78 @@
             flex: 0 0 auto;
 
         }
+
+        /* Phần kết thúc Bảng bài bào */
+        @font-face {
+            font-family: 'LucideIcons';
+            src: url(https://cdn.jsdelivr.net/npm/lucide-static@latest/font/Lucide.ttf) format('truetype');
+        }
+
+        .lucide {
+            font-family: 'LucideIcons';
+            font-size: 1.25rem;
+            /* Adjust size as needed */
+            line-height: 1;
+            display: inline-block;
+            /* Ensure proper alignment */
+        }
+
+        /* Basic styling for tabs */
+        .tab-button.active {
+            border-color: #3b82f6;
+            /* blue-500 */
+            color: #3b82f6;
+            font-weight: 600;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
     </style>
+    <script>
+        // Basic configuration for Tailwind (optional, can customize)
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
 </head>
 
-<body class="bg-gray-50 min-h-screen py-12">
+<body class="font-sans bg-gray-50 text-gray-800">
+
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="text-2xl font-bold text-green-700">
+                <span class="lucide mr-2">&#xe8d4;</span> <span>Trung tâm Sâm & Dược liệu VIGH</span>
+            </div>
+            <div class="hidden md:flex space-x-6">
+                <a href="#home" class="text-gray-600 hover:text-green-700">Trang chủ</a>
+                <a href="#publications"
+                    class="text-gray-600 hover:text-green-700 font-semibold border-b-2 border-green-700">Thông tin Khoa
+                    học</a>
+                <a href="#about" class="text-gray-600 hover:text-green-700">Giới thiệu</a>
+                <a href="#contact" class="text-gray-600 hover:text-green-700">Liên hệ</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden text-gray-600 hover:text-green-700">
+                <span class="lucide">&#xea5a;</span> </button>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden bg-white px-4 pb-3">
+            <a href="#home" class="block py-2 text-gray-600 hover:text-green-700">Trang chủ</a>
+            <a href="#publications" class="block py-2 text-green-700 font-semibold">Thông tin Khoa học</a>
+            <a href="#about" class="block py-2 text-gray-600 hover:text-green-700">Giới thiệu</a>
+            <a href="#contact" class="block py-2 text-gray-600 hover:text-green-700">Liên hệ</a>
+        </div>
+    </header>
+    <!-- /*Mở đầu nội dung bảng bài báo*/ -->
     <div class="max-w-6xl mx-auto px-4">
         <h1 class="text-3xl font-bold text-center text-blue-800 mb-2">Danh Sách Bài Báo Khoa Học</h1>
         <p class="text-center text-gray-600 mb-8">Cập nhật những nghiên cứu mới nhất trong lĩnh vực khoa học</p>
@@ -132,6 +202,315 @@
             </div>
         </div>
     </div>
+    <!-- /*kết thúc nội dung bảng bài báo*/ -->
+    <main class="container mx-auto px-4 py-8">
+
+        <h1 class="text-3xl font-bold text-green-800 mb-6" id="publications">Thông tin Khoa học</h1>
+        <p class="text-gray-600 mb-8">
+            Nguồn tài liệu khoa học cập nhật và đáng tin cậy về Sâm và các dược liệu liên quan. Khám phá các bài báo,
+            kết quả nghiên cứu, dự án đang triển khai và thuật ngữ chuyên ngành.
+        </p>
+
+        <div class="bg-white p-4 rounded-lg shadow-sm mb-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="relative col-span-1 md:col-span-2">
+                    <input type="text" id="search-keyword"
+                        placeholder="Tìm kiếm theo từ khóa (tên dược liệu, hợp chất, tác dụng...)"
+                        class="w-full p-3 pl-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                    <span
+                        class="lucide absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">&#xea31;</span>
+                </div>
+                <button id="filter-button"
+                    class="w-full md:w-auto bg-green-600 text-white px-4 py-3 rounded-md hover:bg-green-700 flex items-center justify-center space-x-2 transition duration-150">
+                    <span class="lucide">&#xea1f;</span> <span>Bộ lọc Nâng cao</span>
+                </button>
+            </div>
+            <div id="advanced-filters" class="mt-4 pt-4 border-t border-gray-200 hidden">
+                <h3 class="text-lg font-semibold mb-3 text-gray-700">Bộ lọc chi tiết</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+                    <div>
+                        <label for="filter-type" class="block text-sm font-medium text-gray-600 mb-1">Loại thông
+                            tin</label>
+                        <select id="filter-type"
+                            class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500">
+                            <option value="">Tất cả</option>
+                            <option value="article">Bài báo khoa học</option>
+                            <option value="clinical">Nghiên cứu lâm sàng</option>
+                            <option value="review">Tổng hợp kết quả</option>
+                            <option value="project">Dự án nghiên cứu</option>
+                            <option value="thesis">Luận văn/Luận án</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="filter-herb" class="block text-sm font-medium text-gray-600 mb-1">Loài Sâm/Dược
+                            liệu</label>
+                        <select id="filter-herb"
+                            class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500">
+                            <option value="">Tất cả</option>
+                            <option value="panax-ginseng">Panax ginseng</option>
+                            <option value="panax-vietnamensis">Panax vietnamensis (Sâm Ngọc Linh)</option>
+                            {/* */}
+                        </select>
+                    </div>
+                    <div>
+                        <label for="filter-year" class="block text-sm font-medium text-gray-600 mb-1">Năm xuất
+                            bản</label>
+                        <input type="number" id="filter-year" placeholder="VD: 2023"
+                            class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500">
+                    </div>
+                    <div>
+                        <label for="filter-field" class="block text-sm font-medium text-gray-600 mb-1">Lĩnh vực nghiên
+                            cứu</label>
+                        <select id="filter-field"
+                            class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500">
+                            <option value="">Tất cả</option>
+                            <option value="chemistry">Hóa học</option>
+                            <option value="pharmacology">Dược lý</option>
+                            <option value="clinical">Lâm sàng</option>
+                            <option value="agriculture">Nông nghiệp</option>
+                            <option value="genetics">Nguồn gen</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="mt-4 text-right">
+                    <button id="apply-filters"
+                        class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition duration-150">Áp
+                        dụng</button>
+                    <button id="reset-filters" class="ml-2 text-gray-600 hover:text-gray-800 px-4 py-2 rounded-md">Đặt
+                        lại</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-6 border-b border-gray-200">
+            <nav class="flex space-x-4" aria-label="Tabs">
+                <button data-tab="publications-library"
+                    class="tab-button py-3 px-1 border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 active">
+                    <span class="lucide mr-1 text-sm">&#xe9e2;</span> Thư viện Nghiên cứu
+                </button>
+                <button data-tab="key-findings"
+                    class="tab-button py-3 px-1 border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300">
+                    <span class="lucide mr-1 text-sm">&#xe9c6;</span> Kết quả Chính
+                </button>
+                <button data-tab="ongoing-projects"
+                    class="tab-button py-3 px-1 border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300">
+                    <span class="lucide mr-1 text-sm">&#xea8a;</span> Dự án Đang tiến hành
+                </button>
+                <button data-tab="glossary"
+                    class="tab-button py-3 px-1 border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300">
+                    <span class="lucide mr-1 text-sm">&#xe964;</span> Thuật ngữ
+                </button>
+            </nav>
+        </div>
+
+        <div>
+            <div id="publications-library" class="tab-content active space-y-6">
+                <h2 class="text-2xl font-semibold text-green-700 mb-4">Thư viện Nghiên cứu / Bài báo Khoa học</h2>
+                <article
+                    class="bg-white p-5 rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-200">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">
+                        <a href="#" class="hover:text-blue-600">Ginsenoside Rg1 enhances cognitive function: A
+                            systematic review and meta-analysis of preclinical studies</a>
+                    </h3>
+                    <p class="text-sm text-gray-500 mb-3">
+                        Tác giả: Nguyen Van A, Tran Thi B | Tạp chí: Journal of Ethnopharmacology | Năm: 2024
+                    </p>
+                    <details class="mb-3">
+                        <summary class="cursor-pointer text-sm text-blue-600 hover:underline">Xem Tóm tắt (Abstract)
+                        </summary>
+                        <p class="text-gray-600 mt-2 text-sm bg-gray-50 p-3 rounded">
+                            This is a placeholder for the abstract. Ginsenoside Rg1, a major active component of Panax
+                            ginseng, has shown potential neuroprotective effects... [Nội dung tóm tắt mẫu]
+                        </p>
+                    </details>
+                    <div class="flex flex-wrap gap-2 items-center text-sm">
+                        <span class="bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full text-xs font-medium">Panax
+                            ginseng</span>
+                        <span class="bg-green-100 text-green-800 px-2 py-0.5 rounded-full text-xs font-medium">Dược
+                            lý</span>
+                        <span class="bg-yellow-100 text-yellow-800 px-2 py-0.5 rounded-full text-xs font-medium">Thần
+                            kinh</span>
+                        <a href="#" target="_blank" class="text-blue-600 hover:underline ml-auto flex items-center"
+                            title="Xem bài báo gốc (DOI/Link)">
+                            <span class="lucide mr-1 text-xs">&#xea4c;</span> Link DOI/Nguồn
+                        </a>
+                        <button class="text-gray-500 hover:text-blue-600 ml-2 flex items-center" title="Xuất trích dẫn">
+                            <span class="lucide mr-1 text-xs">&#xe921;</span> Xuất Citation
+                        </button>
+                    </div>
+                </article>
+
+                <article
+                    class="bg-white p-5 rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-200">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">
+                        <a href="#" class="hover:text-blue-600">Efficacy and Safety of Panax vietnamensis Extract in
+                            Improving Quality of Life in Elderly Patients: A Randomized Controlled Trial</a>
+                    </h3>
+                    <p class="text-sm text-gray-500 mb-3">
+                        Tác giả: Le Hoang C, Pham Duc D | Tạp chí: Phytomedicine | Năm: 2023
+                    </p>
+                    <details class="mb-3">
+                        <summary class="cursor-pointer text-sm text-blue-600 hover:underline">Xem Tóm tắt (Abstract)
+                        </summary>
+                        <p class="text-gray-600 mt-2 text-sm bg-gray-50 p-3 rounded">
+                            Placeholder abstract for the clinical trial on Panax vietnamensis... [Nội dung tóm tắt mẫu]
+                        </p>
+                    </details>
+                    <div class="flex flex-wrap gap-2 items-center text-sm">
+                        <span class="bg-red-100 text-red-800 px-2 py-0.5 rounded-full text-xs font-medium">Panax
+                            vietnamensis</span>
+                        <span class="bg-purple-100 text-purple-800 px-2 py-0.5 rounded-full text-xs font-medium">Nghiên
+                            cứu lâm sàng</span>
+                        <a href="#" target="_blank" class="text-blue-600 hover:underline ml-auto flex items-center"
+                            title="Xem bài báo gốc (DOI/Link)">
+                            <span class="lucide mr-1 text-xs">&#xea4c;</span> Link DOI/Nguồn
+                        </a>
+                        <button class="text-gray-500 hover:text-blue-600 ml-2 flex items-center" title="Xuất trích dẫn">
+                            <span class="lucide mr-1 text-xs">&#xe921;</span> Xuất Citation
+                        </button>
+                    </div>
+                </article>
+
+                <p class="text-center text-gray-500 italic">Hiển thị thêm nhiều bài báo...</p>
+
+                <nav class="mt-6 flex justify-center" aria-label="Pagination">
+                    <a href="#"
+                        class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                        <span class="sr-only">Previous</span>
+                        <span class="lucide text-xs">&#xe91c;</span> </a>
+                    <a href="#" aria-current="page"
+                        class="relative z-10 inline-flex items-center px-4 py-2 border border-green-500 bg-green-50 text-sm font-medium text-green-600">
+                        1 </a>
+                    <a href="#"
+                        class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
+                        2 </a>
+                    <a href="#"
+                        class="relative hidden md:inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
+                        3 </a>
+                    <span
+                        class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700">
+                        ... </span>
+                    <a href="#"
+                        class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
+                        8 </a>
+                    <a href="#"
+                        class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                        <span class="sr-only">Next</span>
+                        <span class="lucide text-xs">&#xe91f;</span> </a>
+                </nav>
+            </div>
+
+            <div id="key-findings" class="tab-content space-y-6">
+                <h2 class="text-2xl font-semibold text-green-700 mb-4">Tổng hợp Kết quả Nghiên cứu Chính</h2>
+                <section class="bg-white p-5 rounded-lg shadow-sm border border-gray-100">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Thành phần hóa học</h3>
+                    <p class="text-gray-600 mb-2">Thông tin về các hợp chất chính (ví dụ: Ginsenosides trong Sâm), cấu
+                        trúc hóa học, hàm lượng trong các bộ phận khác nhau.</p>
+                    {/* */}
+                    <ul class="list-disc list-inside text-gray-600 space-y-1 text-sm">
+                        <li>Ginsenosides (Rb1, Rg1, Re, Rd...) là thành phần đặc trưng của chi Panax.</li>
+                        <li>Sâm Ngọc Linh (Panax vietnamensis) chứa các saponin Ocotillol độc đáo như Majonoside R2.
+                        </li>
+                        <li>Hàm lượng saponin thay đổi theo loài, tuổi cây, bộ phận dùng và điều kiện canh tác.</li>
+                    </ul>
+                    <a href="#" class="text-sm text-blue-600 hover:underline mt-3 inline-block">Xem chi tiết...</a>
+                </section>
+                <section class="bg-white p-5 rounded-lg shadow-sm border border-gray-100">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Tác dụng dược lý</h3>
+                    <p class="text-gray-600 mb-2">Tổng hợp các nghiên cứu về hoạt tính sinh học (chống oxy hóa, chống
+                        viêm, tăng cường miễn dịch, bảo vệ gan, thần kinh, tim mạch, chống ung thư...) dựa trên các
+                        nghiên cứu in vitro, in vivo và lâm sàng.</p>
+                    {/* */}
+                    <ul class="list-disc list-inside text-gray-600 space-y-1 text-sm">
+                        <li>Tác dụng tăng cường miễn dịch thông qua kích thích đại thực bào và tế bào NK.</li>
+                        <li>Hoạt tính chống oxy hóa, bảo vệ tế bào khỏi tổn thương gốc tự do.</li>
+                        <li>Tiềm năng trong hỗ trợ điều trị ung thư (cần thêm nghiên cứu lâm sàng).</li>
+                        <li>Ảnh hưởng tích cực lên hệ thần kinh, cải thiện trí nhớ và khả năng học tập.</li>
+                    </ul>
+                    <a href="#" class="text-sm text-blue-600 hover:underline mt-3 inline-block">Xem chi tiết...</a>
+                </section>
+                <section class="bg-white p-5 rounded-lg shadow-sm border border-gray-100">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Nghiên cứu lâm sàng</h3>
+                    <p class="text-gray-600 mb-2">Tóm tắt các thử nghiệm lâm sàng về hiệu quả và an toàn của Sâm/dược
+                        liệu trên người cho các chỉ định cụ thể.</p>
+                    {/* */}
+                    <a href="#" class="text-sm text-blue-600 hover:underline mt-3 inline-block">Xem chi tiết...</a>
+                </section>
+                <section class="bg-white p-5 rounded-lg shadow-sm border border-gray-100">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Độc tính và An toàn</h3>
+                    <p class="text-gray-600 mb-2">Thông tin về các nghiên cứu độc tính, tác dụng phụ có thể gặp, tương
+                        tác thuốc/dược liệu.</p>
+                    {/* */}
+                    <a href="#" class="text-sm text-blue-600 hover:underline mt-3 inline-block">Xem chi tiết...</a>
+                </section>
+                {/* */}
+            </div>
+
+            <div id="ongoing-projects" class="tab-content space-y-6">
+                <h2 class="text-2xl font-semibold text-green-700 mb-4">Các Dự án Nghiên cứu Đang tiến hành</h2>
+                <p class="text-gray-600 mb-4">Giới thiệu ngắn gọn về các đề tài, dự án nghiên cứu đang được thực hiện,
+                    mục tiêu và tiến độ dự kiến (nếu có thể công bố).</p>
+                <div class="bg-white p-5 rounded-lg shadow-sm border border-gray-100">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Nghiên cứu phát triển quy trình chiết xuất tối
+                        ưu Saponin từ Sâm Ngọc Linh</h3>
+                    <p class="text-sm text-gray-500 mb-2">Chủ trì: Viện Dược liệu</p>
+                    <p class="text-gray-600 text-sm">Mục tiêu: Xây dựng quy trình chiết xuất hiệu suất cao, thân thiện
+                        môi trường để thu nhận saponin tổng số và các saponin chính từ Sâm Ngọc Linh, phục vụ sản xuất
+                        và nghiên cứu sâu hơn.</p>
+                    <p class="text-sm text-gray-500 mt-2">Tiến độ dự kiến: Hoàn thành 2026</p>
+                </div>
+                <div class="bg-white p-5 rounded-lg shadow-sm border border-gray-100">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Đánh giá tác dụng bảo vệ gan của cao chiết Sâm
+                        Lai Châu trên mô hình thực nghiệm</h3>
+                    <p class="text-sm text-gray-500 mb-2">Chủ trì: Đại học Y Hà Nội (Giả định)</p>
+                    <p class="text-gray-600 text-sm">Mục tiêu: Xác định khả năng bảo vệ tế bào gan của Sâm Lai Châu
+                        (Panax stipuleanatus) trước các tác nhân gây độc, tìm hiểu cơ chế liên quan.</p>
+                    <p class="text-sm text-gray-500 mt-2">Tiến độ dự kiến: Báo cáo giữa kỳ 2025</p>
+                </div>
+                {/* */}
+            </div>
+
+            <div id="glossary" class="tab-content space-y-4">
+                <h2 class="text-2xl font-semibold text-green-700 mb-4">Thuật ngữ Khoa học</h2>
+                <p class="text-gray-600 mb-4">Giải thích các thuật ngữ chuyên ngành thường gặp để người đọc không chuyên
+                    có thể hiểu rõ hơn.</p>
+                <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
+                    <h3 class="text-lg font-semibold text-gray-800">Ginsenoside</h3>
+                    <p class="text-gray-600 text-sm mt-1">Là nhóm các hợp chất saponin triterpenoid steroid, được coi là
+                        thành phần hoạt chất chính tạo nên tác dụng dược lý của các loài Sâm thuộc chi Panax.</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
+                    <h3 class="text-lg font-semibold text-gray-800">In vitro</h3>
+                    <p class="text-gray-600 text-sm mt-1">Nghiên cứu được thực hiện trong môi trường nhân tạo bên ngoài
+                        cơ thể sống, ví dụ như trong ống nghiệm hoặc đĩa petri.</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
+                    <h3 class="text-lg font-semibold text-gray-800">In vivo</h3>
+                    <p class="text-gray-600 text-sm mt-1">Nghiên cứu được thực hiện trên cơ thể sống hoàn chỉnh, ví dụ
+                        như trên động vật thí nghiệm hoặc trên người.</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
+                    <h3 class="text-lg font-semibold text-gray-800">Peer-reviewed</h3>
+                    <p class="text-gray-600 text-sm mt-1">(Bình duyệt / Phản biện độc lập) Quá trình các chuyên gia
+                        trong cùng lĩnh vực đánh giá chất lượng và tính hợp lệ của một công trình nghiên cứu trước khi
+                        nó được công bố trên tạp chí khoa học.</p>
+                </div>
+                {/* */}
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="bg-gray-800 text-gray-300 mt-12 py-8">
+        <div class="container mx-auto px-4 text-center">
+            <p>&copy; 2025 Trung tâm Nghiên cứu Sâm & Dược liệu. Bảo lưu mọi quyền.</p>
+            <div class="mt-4 space-x-4">
+                <a href="#" class="hover:text-white">Chính sách Bảo mật</a>
+                <a href="#" class="hover:text-white">Điều khoản Sử dụng</a>
+                <a href="#contact" class="hover:text-white">Liên hệ</a>
+            </div>
+        </div>
+    </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -268,6 +647,71 @@
             displayPapers(currentPage);
             startAutoScroll();
         });
+        // Mobile Menu Toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Filter Toggle
+        const filterButton = document.getElementById('filter-button');
+        const advancedFilters = document.getElementById('advanced-filters');
+        const applyFiltersButton = document.getElementById('apply-filters');
+        const resetFiltersButton = document.getElementById('reset-filters');
+
+        filterButton.addEventListener('click', () => {
+            advancedFilters.classList.toggle('hidden');
+        });
+
+        // Add basic logic for apply/reset filters (for demonstration)
+        applyFiltersButton.addEventListener('click', () => {
+            console.log('Applying filters...');
+            // Add actual filter application logic here
+            advancedFilters.classList.add('hidden'); // Hide after applying
+        });
+
+        resetFiltersButton.addEventListener('click', () => {
+            console.log('Resetting filters...');
+            // Add actual filter reset logic here
+            // Example: Reset form fields
+            advancedFilters.querySelectorAll('input, select').forEach(el => {
+                if (el.type === 'number' || el.type === 'text') el.value = '';
+                else if (el.tagName === 'SELECT') el.selectedIndex = 0;
+            });
+        });
+
+
+        // Tab Switching Logic
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const tabId = button.getAttribute('data-tab');
+
+                // Deactivate all buttons and contents
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                tabContents.forEach(content => content.classList.remove('active'));
+
+                // Activate the clicked button and corresponding content
+                button.classList.add('active');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+
+        // Simple search placeholder functionality (replace with actual search logic)
+        const searchInput = document.getElementById('search-keyword');
+        searchInput.addEventListener('keypress', function (event) {
+            if (event.key === 'Enter') {
+                event.preventDefault(); // Prevent form submission if it's inside a form
+                const searchTerm = searchInput.value;
+                console.log(`Performing search for: ${searchTerm}`);
+                alert(`Đã tìm kiếm cho: ${searchTerm}\n(Đây là chức năng mẫu, cần tích hợp logic tìm kiếm thực tế)`);
+                // Add actual search result display logic here
+            }
+        });
+
     </script>
 
 </body>
