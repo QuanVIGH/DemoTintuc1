@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carousel Bài Báo Khoa Học</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .paper-item {
+            transition: all 0.5s ease;
+            opacity: 0;
+            height: 0;
+            overflow: hidden;
+        }
+
+        .paper-item.active {
+            opacity: 1;
+            height: auto;
+            padding: 1rem 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .carousel-container {
+            position: relative;
+        }
+
+        .carousel-controls {
+            position: absolute;
+            right: 0;
+            top: -50px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease forwards;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 min-h-screen py-12">
+    <div class="max-w-6xl mx-auto px-4">
+        <h1 class="text-3xl font-bold text-center text-blue-800 mb-2">Danh Sách Bài Báo Khoa Học</h1>
+        <p class="text-center text-gray-600 mb-8">Cập nhật những nghiên cứu mới nhất trong lĩnh vực khoa học</p>
+
+        <div class="carousel-container bg-white rounded-xl shadow-lg overflow-hidden">
+            <div class="carousel-controls">
+                <button id="prevBtn" class="p-2 text-gray-600 hover:text-blue-600 transition">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button id="nextBtn" class="p-2 text-gray-600 hover:text-blue-600 transition">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+                <button id="autoBtn" class="p-2 text-gray-600 hover:text-blue-600 transition">
+                    <i class="fas fa-pause" id="autoIcon"></i>
+                </button>
+            </div>
+
+            <div class="grid grid-cols-12 border-b border-gray-200 bg-gray-100 py-3 px-6">
+                <div class="col-span-8 font-semibold text-gray-700">Tên Bài Báo</div>
+                <div class="col-span-4 font-semibold text-gray-700">Tác Giả</div>
+            </div>
+
+            <div id="papersContainer" class="divide-y divide-gray-200">
+                <!-- Các bài báo sẽ được thêm bằng JavaScript -->
+            </div>
+
+            <div class="flex justify-center py-4 bg-gray-50">
+                <div id="pagination" class="flex space-x-2">
+                    <!-- Các nút phân trang sẽ được thêm bằng JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Dữ liệu mẫu các bài báo khoa học
+            const papers = [
+                {
+                    title: "Ứng dụng trí tuệ nhân tạo trong chẩn đoán bệnh ung thư vú giai đoạn sớm",
+                    authors: "Nguyễn Văn A, Trần Thị B, Lê Văn C",
+                    journal: "Tạp chí Y học Việt Nam",
+                    year: 2023
+                },
+                {
+                    title: "Nghiên cứu phát triển vật liệu nano ứng dụng trong pin mặt trời thế hệ mới",
+                    authors: "Phạm Văn D, Hoàng Thị E",
+                    journal: "Tạp chí Vật lý ứng dụng",
+                    year: 2022
+                },
+                {
+                    title: "Giải pháp blockchain trong quản lý hồ sơ y tế điện tử tại Việt Nam",
+                    authors: "Vũ Văn F, Ngô Thị G, Đặng Văn H",
+                    journal: "Tạp chí Công nghệ thông tin",
+                    year: 2023
+                },
+                {
+                    title: "Đánh giá hiệu quả của các biện pháp can thiệp giảm ô nhiễm không khí tại Hà Nội",
+                    authors: "Lý Thị I, Trần Văn K",
+                    journal: "Tạp chí Môi trường",
+                    year: 2021
+                },
+                {
+                    title: "Phát triển thuật toán học sâu trong nhận diện giọng nói tiếng Việt",
+                    authors: "Nguyễn Thị L, Võ Văn M",
+                    journal: "Tạp chí Trí tuệ nhân tạo",
+                    year: 2023
+                },
+                {
+                    title: "Nghiên cứu đặc điểm sinh học của loài cá quý hiếm tại vườn quốc gia Cúc Phương",
+                    authors: "Trần Văn N, Phạm Thị O",
+                    journal: "Tạp chí Sinh học",
+                    year: 2022
+                },
+                {
+                    title: "Ứng dụng mô hình toán trong dự báo lũ lụt tại đồng bằng sông Cửu Long",
+                    authors: "Lê Thị P, Nguyễn Văn Q",
+                    journal: "Tạp chí Khí tượng Thủy văn",
+                    year: 2023
+                },
+                {
+                    title: "Phân tích hiệu quả kinh tế của các mô hình nông nghiệp công nghệ cao tại Lâm Đồng",
+                    authors: "Vũ Thị R, Đỗ Văn S",
+                    journal: "Tạp chí Kinh tế Nông nghiệp",
+                    year: 2021
+                },
+                {
+                    title: "Nghiên cứu chế tạo vật liệu composite từ phế thải nông nghiệp",
+                    authors: "Hoàng Văn T, Lý Thị U",
+                    journal: "Tạp chí Vật liệu xây dựng",
+                    year: 2023
+                },
+                {
+                    title: "Đánh giá tác động của biến đổi khí hậu đến hệ sinh thái rừng ngập mặn Cà Mau",
+                    authors: "Trần Thị V, Nguyễn Văn X",
+                    journal: "Tạp chí Biến đổi khí hậu",
+                    year: 2022
+                }
+            ];
+
+            const papersContainer = document.getElementById('papersContainer');
+            const pagination = document.getElementById('pagination');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const autoBtn = document.getElementById('autoBtn');
+            const autoIcon = document.getElementById('autoIcon');
+
+            let currentPage = 0;
+            const itemsPerPage = 5;
+            let totalPages = Math.ceil(papers.length / itemsPerPage);
+            let autoScrollInterval;
+            let isAutoScroll = true;
+
+            // Hiển thị bài báo
+            function displayPapers(page) {
+                papersContainer.innerHTML = '';
+                const start = page * itemsPerPage;
+                const end = start + itemsPerPage;
+                const visiblePapers = papers.slice(start, end);
+
+                visiblePapers.forEach((paper, index) => {
+                    const paperElement = document.createElement('div');
+                    paperElement.className = `grid grid-cols-12 paper-item ${index === 0 ? 'active' : ''}`;
+
+                    paperElement.innerHTML = `
+                        <div class="col-span-8 px-6">
+                            <h3 class="font-medium text-blue-700">${paper.title}</h3>
+                            <p class="text-sm text-gray-500 mt-1">${paper.journal}, ${paper.year}</p>
+                        </div>
+                        <div class="col-span-4 px-6 text-gray-700">
+                            ${paper.authors}
+                        </div>
+                    `;
+
+                    papersContainer.appendChild(paperElement);
+
+                    // Thêm hiệu ứng fade in
+                    setTimeout(() => {
+                        paperElement.classList.add('fade-in');
+                    }, index * 100);
+                });
+
+                updatePagination();
+            }
+
+            // Cập nhật phân trang
+            function updatePagination() {
+                pagination.innerHTML = '';
+
+                for (let i = 0; i < totalPages; i++) {
+                    const pageBtn = document.createElement('button');
+                    pageBtn.className = `w-8 h-8 rounded-full ${i === currentPage ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`;
+                    pageBtn.textContent = i + 1;
+                    pageBtn.addEventListener('click', () => {
+                        goToPage(i);
+                    });
+                    pagination.appendChild(pageBtn);
+                }
+            }
+
+            // Chuyển đến trang cụ thể
+            function goToPage(page) {
+                if (page < 0) page = totalPages - 1;
+                if (page >= totalPages) page = 0;
+
+                currentPage = page;
+                displayPapers(currentPage);
+            }
+
+            // Tự động cuộn
+            function startAutoScroll() {
+                if (autoScrollInterval) clearInterval(autoScrollInterval);
+
+                autoScrollInterval = setInterval(() => {
+                    goToPage((currentPage + 1) % totalPages);
+                }, 3000);
+            }
+
+            // Xử lý sự kiện nút
+            prevBtn.addEventListener('click', () => {
+                goToPage(currentPage - 1);
+                if (isAutoScroll) {
+                    clearInterval(autoScrollInterval);
+                    startAutoScroll();
+                }
+            });
+
+            nextBtn.addEventListener('click', () => {
+                goToPage(currentPage + 1);
+                if (isAutoScroll) {
+                    clearInterval(autoScrollInterval);
+                    startAutoScroll();
+                }
+            });
+
+            autoBtn.addEventListener('click', () => {
+                isAutoScroll = !isAutoScroll;
+                if (isAutoScroll) {
+                    autoIcon.classList.remove('fa-play');
+                    autoIcon.classList.add('fa-pause');
+                    startAutoScroll();
+                } else {
+                    autoIcon.classList.remove('fa-pause');
+                    autoIcon.classList.add('fa-play');
+                    clearInterval(autoScrollInterval);
+                }
+            });
+
+            // Khởi tạo
+            displayPapers(currentPage);
+            startAutoScroll();
+
+            // Hiệu ứng chuyển đổi giữa các bài báo
+            setInterval(() => {
+                const items = document.querySelectorAll('.paper-item');
+                items.forEach((item, index) => {
+                    if (item.classList.contains('active')) {
+                        item.classList.remove('active');
+                        const nextIndex = (index + 1) % items.length;
+                        items[nextIndex].classList.add('active');
+                        return;
+                    }
+                });
+            }, 5000);
+        });
+    </script>
+</body>
+
+</html>
