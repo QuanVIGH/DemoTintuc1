@@ -8,8 +8,12 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
         .paper-item {
-            transition: all 0.5s ease;
+            transition: opacity 0.7s ease, transform 0.7s ease, height 0.7s ease;
             opacity: 0;
             height: 0;
             overflow: hidden;
@@ -22,6 +26,42 @@
             border-bottom: 1px solid #e5e7eb;
         }
 
+        .paper-item:hover {
+            transform: scale(1.02);
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(10px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            to {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+        }
+
+        .fade-in {
+            animation: slideIn 0.7s ease-out forwards;
+        }
+
+        .fade-out {
+            animation: fadeOut 0.7s ease-out forwards;
+        }
+
         .carousel-container {
             position: relative;
         }
@@ -32,20 +72,12 @@
             top: -50px;
         }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        #pagination button {
+            transition: transform 0.3s ease;
         }
 
-        .fade-in {
-            animation: fadeIn 0.5s ease forwards;
+        #pagination button:hover {
+            transform: scale(1.1);
         }
     </style>
 </head>
@@ -89,66 +121,12 @@
         document.addEventListener('DOMContentLoaded', function () {
             // Dữ liệu mẫu các bài báo khoa học
             const papers = [
-                {
-                    title: "Ứng dụng trí tuệ nhân tạo trong chẩn đoán bệnh ung thư vú giai đoạn sớm",
-                    authors: "Nguyễn Văn A, Trần Thị B, Lê Văn C",
-                    journal: "Tạp chí Y học Việt Nam",
-                    year: 2023
-                },
-                {
-                    title: "Nghiên cứu phát triển vật liệu nano ứng dụng trong pin mặt trời thế hệ mới",
-                    authors: "Phạm Văn D, Hoàng Thị E",
-                    journal: "Tạp chí Vật lý ứng dụng",
-                    year: 2022
-                },
-                {
-                    title: "Giải pháp blockchain trong quản lý hồ sơ y tế điện tử tại Việt Nam",
-                    authors: "Vũ Văn F, Ngô Thị G, Đặng Văn H",
-                    journal: "Tạp chí Công nghệ thông tin",
-                    year: 2023
-                },
-                {
-                    title: "Đánh giá hiệu quả của các biện pháp can thiệp giảm ô nhiễm không khí tại Hà Nội",
-                    authors: "Lý Thị I, Trần Văn K",
-                    journal: "Tạp chí Môi trường",
-                    year: 2021
-                },
-                {
-                    title: "Phát triển thuật toán học sâu trong nhận diện giọng nói tiếng Việt",
-                    authors: "Nguyễn Thị L, Võ Văn M",
-                    journal: "Tạp chí Trí tuệ nhân tạo",
-                    year: 2023
-                },
-                {
-                    title: "Nghiên cứu đặc điểm sinh học của loài cá quý hiếm tại vườn quốc gia Cúc Phương",
-                    authors: "Trần Văn N, Phạm Thị O",
-                    journal: "Tạp chí Sinh học",
-                    year: 2022
-                },
-                {
-                    title: "Ứng dụng mô hình toán trong dự báo lũ lụt tại đồng bằng sông Cửu Long",
-                    authors: "Lê Thị P, Nguyễn Văn Q",
-                    journal: "Tạp chí Khí tượng Thủy văn",
-                    year: 2023
-                },
-                {
-                    title: "Phân tích hiệu quả kinh tế của các mô hình nông nghiệp công nghệ cao tại Lâm Đồng",
-                    authors: "Vũ Thị R, Đỗ Văn S",
-                    journal: "Tạp chí Kinh tế Nông nghiệp",
-                    year: 2021
-                },
-                {
-                    title: "Nghiên cứu chế tạo vật liệu composite từ phế thải nông nghiệp",
-                    authors: "Hoàng Văn T, Lý Thị U",
-                    journal: "Tạp chí Vật liệu xây dựng",
-                    year: 2023
-                },
-                {
-                    title: "Đánh giá tác động của biến đổi khí hậu đến hệ sinh thái rừng ngập mặn Cà Mau",
-                    authors: "Trần Thị V, Nguyễn Văn X",
-                    journal: "Tạp chí Biến đổi khí hậu",
-                    year: 2022
-                }
+                { title: "Ứng dụng trí tuệ nhân tạo trong chẩn đoán bệnh ung thư vú giai đoạn sớm", authors: "Nguyễn Văn A, Trần Thị B, Lê Văn C", journal: "Tạp chí Y học Việt Nam", year: 2023 },
+                { title: "Nghiên cứu phát triển vật liệu nano ứng dụng trong pin mặt trời thế hệ mới", authors: "Phạm Văn D, Hoàng Thị E", journal: "Tạp chí Vật lý ứng dụng", year: 2022 },
+                { title: "Giải pháp blockchain trong quản lý hồ sơ y tế điện tử tại Việt Nam", authors: "Vũ Văn F, Ngô Thị G, Đặng Văn H", journal: "Tạp chí Công nghệ thông tin", year: 2023 },
+                { title: "Đánh giá hiệu quả của các biện pháp can thiệp giảm ô nhiễm không khí tại Hà Nội", authors: "Lý Thị I, Trần Văn K", journal: "Tạp chí Môi trường", year: 2021 },
+                { title: "Phát triển thuật toán học sâu trong nhận diện giọng nói tiếng Việt", authors: "Nguyễn Thị L, Võ Văn M", journal: "Tạp chí Trí tuệ nhân tạo", year: 2023 },
+                // ... các bài báo khác
             ];
 
             const papersContainer = document.getElementById('papersContainer');
@@ -164,7 +142,7 @@
             let autoScrollInterval;
             let isAutoScroll = true;
 
-            // Hiển thị bài báo
+            // Hiển thị bài báo với hiệu ứng fade-in cho tất cả các phần tử
             function displayPapers(page) {
                 papersContainer.innerHTML = '';
                 const start = page * itemsPerPage;
@@ -173,21 +151,22 @@
 
                 visiblePapers.forEach((paper, index) => {
                     const paperElement = document.createElement('div');
-                    paperElement.className = `grid grid-cols-12 paper-item ${index === 0 ? 'active' : ''}`;
+                    // Gán active cho tất cả các phần tử để hiển thị chúng đồng thời
+                    paperElement.className = `grid grid-cols-12 paper-item active`;
 
                     paperElement.innerHTML = `
-                        <div class="col-span-8 px-6">
-                            <h3 class="font-medium text-blue-700">${paper.title}</h3>
-                            <p class="text-sm text-gray-500 mt-1">${paper.journal}, ${paper.year}</p>
-                        </div>
-                        <div class="col-span-4 px-6 text-gray-700">
-                            ${paper.authors}
-                        </div>
-                    `;
+                <div class="col-span-8 px-6">
+                  <h3 class="font-medium text-blue-700">${paper.title}</h3>
+                  <p class="text-sm text-gray-500 mt-1">${paper.journal}, ${paper.year}</p>
+                </div>
+                <div class="col-span-4 px-6 text-gray-700">
+                  ${paper.authors}
+                </div>
+              `;
 
                     papersContainer.appendChild(paperElement);
 
-                    // Thêm hiệu ứng fade in
+                    // Áp dụng hiệu ứng fade-in cho mỗi bài báo
                     setTimeout(() => {
                         paperElement.classList.add('fade-in');
                     }, index * 100);
@@ -211,16 +190,20 @@
                 }
             }
 
-            // Chuyển đến trang cụ thể
+            // Chuyển đến trang cụ thể với hiệu ứng fade-out trước (nếu cần)
             function goToPage(page) {
-                if (page < 0) page = totalPages - 1;
-                if (page >= totalPages) page = 0;
+                const items = document.querySelectorAll('.paper-item');
+                items.forEach(item => item.classList.add('fade-out'));
 
-                currentPage = page;
-                displayPapers(currentPage);
+                setTimeout(() => {
+                    if (page < 0) page = totalPages - 1;
+                    if (page >= totalPages) page = 0;
+                    currentPage = page;
+                    displayPapers(currentPage);
+                }, 700);
             }
 
-            // Tự động cuộn
+            // Tự động cuộn trang
             function startAutoScroll() {
                 if (autoScrollInterval) clearInterval(autoScrollInterval);
 
@@ -259,24 +242,25 @@
                 }
             });
 
-            // Khởi tạo
+            // Khởi tạo trang đầu tiên và bắt đầu auto-scroll
             displayPapers(currentPage);
             startAutoScroll();
 
-            // Hiệu ứng chuyển đổi giữa các bài báo
-            setInterval(() => {
-                const items = document.querySelectorAll('.paper-item');
-                items.forEach((item, index) => {
-                    if (item.classList.contains('active')) {
-                        item.classList.remove('active');
-                        const nextIndex = (index + 1) % items.length;
-                        items[nextIndex].classList.add('active');
-                        return;
-                    }
-                });
-            }, 5000);
+            // Loại bỏ đoạn chuyển đổi giữa các bài báo riêng lẻ
+            // setInterval(() => {
+            //   const items = document.querySelectorAll('.paper-item');
+            //   items.forEach((item, index) => {
+            //     if (item.classList.contains('active')) {
+            //       item.classList.remove('active');
+            //       const nextIndex = (index + 1) % items.length;
+            //       items[nextIndex].classList.add('active');
+            //       return;
+            //     }
+            //   });
+            // }, 5000);
         });
     </script>
+
 </body>
 
 </html>
