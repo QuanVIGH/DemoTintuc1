@@ -13,7 +13,7 @@
         }
 
         .paper-item {
-            transition: opacity 0.7s ease, transform 0.7s ease, height 0.7s ease;
+            transition: opacity 3s ease, transform 3s ease, height 3s ease;
             opacity: 0;
             height: 0;
             overflow: hidden;
@@ -79,6 +79,22 @@
         #pagination button:hover {
             transform: scale(1.1);
         }
+
+        #papersContainer {
+            height: calc(5 * 4rem);
+            /* Chiều cao cố định cho 5 bài báo (4rem mỗi bài báo) */
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            /* Căn các bài báo lên trên */
+            overflow: hidden;
+            /* Ẩn nội dung thừa nếu có */
+        }
+
+        .paper-item {
+            flex: 0 0 auto;
+
+        }
     </style>
 </head>
 
@@ -100,9 +116,9 @@
                 </button>
             </div>
 
-            <div class="grid grid-cols-12 border-b border-gray-200 bg-gray-100 py-3 px-6">
-                <div class="col-span-8 font-semibold text-gray-700">Tên Bài Báo</div>
-                <div class="col-span-4 font-semibold text-gray-700">Tác Giả</div>
+            <div class="grid grid-cols-12 border-b border-gray-200 bg-gray-100 py-3 px-6 text-center">
+                <div class="col-span-8 text-gray-700">Tên Bài Báo</div>
+                <div class="col-span-4 text-gray-700">Tác Giả</div>
             </div>
 
             <div id="papersContainer" class="divide-y divide-gray-200">
@@ -126,7 +142,13 @@
                 { title: "Giải pháp blockchain trong quản lý hồ sơ y tế điện tử tại Việt Nam", authors: "Vũ Văn F, Ngô Thị G, Đặng Văn H", journal: "Tạp chí Công nghệ thông tin", year: 2023 },
                 { title: "Đánh giá hiệu quả của các biện pháp can thiệp giảm ô nhiễm không khí tại Hà Nội", authors: "Lý Thị I, Trần Văn K", journal: "Tạp chí Môi trường", year: 2021 },
                 { title: "Phát triển thuật toán học sâu trong nhận diện giọng nói tiếng Việt", authors: "Nguyễn Thị L, Võ Văn M", journal: "Tạp chí Trí tuệ nhân tạo", year: 2023 },
-                // ... các bài báo khác
+                { title: "Quân đẹp zai đang test thử tính năng web", authors: "Nguyễn Thị L, Võ Văn M", journal: "Tạp chí Trí tuệ nhân tạo", year: 2023 },
+                { title: "Vẫn là đang test tính nănggggggggggggggggggg", authors: "Nguyễn Thị L, Võ Văn M", journal: "Tạp chí Trí tuệ nhân tạo", year: 2023 },
+                { title: "Dạo này phim nào hottttttttttttttttttt", authors: "Nguyễn Thị L, Võ Văn M", journal: "Tạp chí Trí tuệ nhân tạo", year: 2023 },
+                { title: "Thuốc chống ung thư bla bla bla", authors: "Nguyễn Thị L, Võ Văn M", journal: "Tạp chí Trí tuệ nhân tạo", year: 2023 },
+                { title: "Ứng dụng trí tuệ nhân tạo trong chẩn đoán bệnh ung thư vú giai đoạn sớm", authors: "Nguyễn Văn A, Trần Thị B, Lê Văn C", journal: "Tạp chí Y học Việt Nam", year: 2023 },
+                { title: "Nghiên cứu phát triển vật liệu nano ứng dụng trong pin mặt trời thế hệ mới", authors: "Phạm Văn D, Hoàng Thị E", journal: "Tạp chí Vật lý ứng dụng", year: 2022 },
+                { title: "Giải pháp blockchain trong quản lý hồ sơ y tế điện tử tại Việt Nam", authors: "Vũ Văn F, Ngô Thị G, Đặng Văn H", journal: "Tạp chí Công nghệ thông tin", year: 2023 },// ... các bài báo khác
             ];
 
             const papersContainer = document.getElementById('papersContainer');
@@ -245,19 +267,6 @@
             // Khởi tạo trang đầu tiên và bắt đầu auto-scroll
             displayPapers(currentPage);
             startAutoScroll();
-
-            // Loại bỏ đoạn chuyển đổi giữa các bài báo riêng lẻ
-            // setInterval(() => {
-            //   const items = document.querySelectorAll('.paper-item');
-            //   items.forEach((item, index) => {
-            //     if (item.classList.contains('active')) {
-            //       item.classList.remove('active');
-            //       const nextIndex = (index + 1) % items.length;
-            //       items[nextIndex].classList.add('active');
-            //       return;
-            //     }
-            //   });
-            // }, 5000);
         });
     </script>
 
